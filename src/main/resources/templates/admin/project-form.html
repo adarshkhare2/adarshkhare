@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{admin/fragments :: head('Project')}"></head>
+<body class="admin">
+<div class="admin-layout">
+    <aside th:replace="~{admin/fragments :: sidebar('projects')}"></aside>
+    <main class="admin-main">
+        <div class="admin-header">
+            <h1 th:text="${project.id == null ? 'New project' : 'Edit project'}">Project</h1>
+        </div>
+        <div class="panel">
+            <form th:action="@{/admin/projects/save}" th:object="${project}" method="post" enctype="multipart/form-data" class="form-grid">
+                <input type="hidden" th:field="*{id}"/>
+                <label>Title
+                    <input type="text" th:field="*{title}" required/>
+                </label>
+                <label>Tech stack
+                    <input type="text" th:field="*{techStack}" placeholder="Java, Spring Boot, MySQL"/>
+                </label>
+                <label>Live link
+                    <input type="text" th:field="*{link}"/>
+                </label>
+                <label>Repository link
+                    <input type="text" th:field="*{repoLink}"/>
+                </label>
+                <label>Display order
+                    <input type="number" min="0" th:field="*{displayOrder}"/>
+                </label>
+                <label>Project image
+                    <input type="file" name="imageFile" accept="image/*"/>
+                </label>
+                <div class="full" th:if="${project.imageFilename != null and !project.imageFilename.isEmpty()}">
+                    <span class="field-hint">Current image</span>
+                    <img th:src="@{/project-image/{id}(id=${project.id})}" alt="Project image" style="max-width:280px;border-radius:12px;border:1px solid var(--border);display:block;margin-top:8px"/>
+                </div>
+                <label class="full">Description
+                    <textarea th:field="*{description}" rows="5"></textarea>
+                </label>
+                <div class="full form-actions">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                    <a href="/admin/projects" class="btn btn-outline">Cancel</a>
+                </div>
+            </form>
+            <form th:if="${project.id != null and project.imageFilename != null and !project.imageFilename.isEmpty()}"
+                  th:action="@{'/admin/projects/image/delete/' + ${project.id}}" method="post" style="margin-top:12px">
+                <button type="submit" class="btn btn-danger">Remove image</button>
+            </form>
+        </div>
+    </main>
+</div>
+</body>
+</html>

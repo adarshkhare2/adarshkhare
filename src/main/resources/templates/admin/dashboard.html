@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{admin/fragments :: head('Dashboard')}"></head>
+<body class="admin">
+<div class="admin-layout">
+    <aside th:replace="~{admin/fragments :: sidebar('dashboard')}"></aside>
+    <main class="admin-main">
+        <div class="admin-header">
+            <h1>Dashboard</h1>
+            <p class="muted">Welcome back, <span th:text="${info.fullName != null ? info.fullName : 'Admin'}">Admin</span>.</p>
+        </div>
+
+        <div class="stat-grid">
+            <a href="/admin/skills" class="stat-card">
+                <span class="stat-num" th:text="${skillCount}">0</span>
+                <span class="stat-label">Skills</span>
+            </a>
+            <a href="/admin/experiences" class="stat-card">
+                <span class="stat-num" th:text="${experienceCount}">0</span>
+                <span class="stat-label">Experience</span>
+            </a>
+            <a href="/admin/educations" class="stat-card">
+                <span class="stat-num" th:text="${educationCount}">0</span>
+                <span class="stat-label">Education</span>
+            </a>
+            <a href="/admin/projects" class="stat-card">
+                <span class="stat-num" th:text="${projectCount}">0</span>
+                <span class="stat-label">Projects</span>
+            </a>
+            <a href="/admin/certifications" class="stat-card">
+                <span class="stat-num" th:text="${certificationCount}">0</span>
+                <span class="stat-label">Certifications</span>
+            </a>
+        </div>
+
+        <div class="panel">
+            <h2>Quick actions</h2>
+            <div class="quick-actions">
+                <a href="/admin/profile" class="btn btn-primary btn-sm">Edit profile &amp; resume</a>
+                <a href="/admin/projects/new" class="btn btn-outline btn-sm">Add project</a>
+                <a href="/admin/skills/new" class="btn btn-outline btn-sm">Add skill</a>
+                <a href="/admin/experiences/new" class="btn btn-outline btn-sm">Add experience</a>
+            </div>
+        </div>
+    </main>
+</div>
+</body>
+</html>

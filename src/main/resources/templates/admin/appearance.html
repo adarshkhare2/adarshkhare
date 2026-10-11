@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{admin/fragments :: head('Appearance')}"></head>
+<body class="admin">
+<div class="admin-layout">
+    <aside th:replace="~{admin/fragments :: sidebar('appearance')}"></aside>
+    <main class="admin-main">
+        <div class="admin-header">
+            <h1>Appearance</h1>
+            <p class="muted">Set the website background image shown to all visitors.</p>
+        </div>
+
+        <div th:replace="~{admin/fragments :: flash}"></div>
+
+        <div class="panel">
+            <h2>Current background</h2>
+            <p class="muted" th:if="${appearance.backgroundFilename == null}">No background image set. The site uses the default color theme.</p>
+            <img th:if="${appearance.backgroundFilename != null}" src="/background" alt="Current background" class="bg-preview"/>
+            <form th:if="${appearance.backgroundFilename != null}" th:action="@{/admin/appearance/remove}" method="post" class="inline-form">
+                <button type="submit" class="btn btn-danger btn-sm">Remove background</button>
+            </form>
+        </div>
+
+        <div class="panel">
+            <h2>Upload new background</h2>
+            <p class="muted">PNG, JPG, WEBP or GIF. A dark tint is applied over the image so the text stays readable in both light and dark mode.</p>
+            <form th:action="@{/admin/appearance}" method="post" enctype="multipart/form-data" class="upload-form">
+                <input type="file" name="file" accept="image/*" required/>
+                <button type="submit" class="btn btn-primary btn-sm">Set background</button>
+            </form>
+        </div>
+    </main>
+</div>
+</body>
+</html>

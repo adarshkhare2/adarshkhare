@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{admin/fragments :: head('Profile')}"></head>
+<body class="admin">
+<div class="admin-layout">
+    <aside th:replace="~{admin/fragments :: sidebar('profile')}"></aside>
+    <main class="admin-main">
+        <div class="admin-header">
+            <h1>Profile</h1>
+            <p class="muted">Your personal details, photo and resume.</p>
+        </div>
+
+        <div th:replace="~{admin/fragments :: flash}"></div>
+
+        <div class="panel">
+            <h2>Personal details</h2>
+            <form th:action="@{/admin/profile}" th:object="${info}" method="post" class="form-grid">
+                <label>Full name
+                    <input type="text" th:field="*{fullName}"/>
+                </label>
+                <label>Title / role
+                    <input type="text" th:field="*{title}"/>
+                </label>
+                <label>Email
+                    <input type="email" th:field="*{email}"/>
+                </label>
+                <label>Phone
+                    <input type="text" th:field="*{phone}"/>
+                </label>
+                <label>Location
+                    <input type="text" th:field="*{location}"/>
+                </label>
+                <label>Website
+                    <input type="text" th:field="*{website}"/>
+                </label>
+                <label>GitHub
+                    <input type="text" th:field="*{github}"/>
+                </label>
+                <label>LinkedIn
+                    <input type="text" th:field="*{linkedin}"/>
+                </label>
+                <label>Instagram
+                    <input type="text" th:field="*{instagram}"/>
+                </label>
+                <label>Twitter / X
+                    <input type="text" th:field="*{twitter}"/>
+                </label>
+                <label class="full">Summary / about me
+                    <textarea th:field="*{summary}" rows="5"></textarea>
+                </label>
+                <div class="full">
+                    <button type="submit" class="btn btn-primary">Save profile</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="panel">
+            <h2>Profile photo</h2>
+            <div class="upload-row">
+                <div class="thumb">
+                    <img th:if="${info.profilePhoto != null}" src="/photo" alt="Photo"/>
+                    <span th:unless="${info.profilePhoto != null}" class="avatar-initials"
+                          th:text="${info.fullName != null ? #strings.substring(info.fullName,0,1) : 'P'}">P</span>
+                </div>
+                <form th:action="@{/admin/profile/photo}" method="post" enctype="multipart/form-data" class="upload-form">
+                    <input type="file" name="file" accept="image/*" required/>
+                    <button type="submit" class="btn btn-primary btn-sm">Upload photo</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="panel">
+            <h2>Resume (PDF)</h2>
+            <p class="muted" th:if="${info.resumeFileName == null}">No resume uploaded yet.</p>
+            <p th:if="${info.resumeFileName != null}">
+                Current resume:
+                <a href="/resume" target="_blank" class="link">Download</a>
+            </p>
+            <form th:action="@{/admin/profile/resume}" method="post" enctype="multipart/form-data" class="upload-form">
+                <input type="file" name="file" accept=".pdf,.doc,.docx" required/>
+                <button type="submit" class="btn btn-primary btn-sm">Upload resume</button>
+            </form>
+            <form th:if="${info.resumeFileName != null}" th:action="@{/admin/profile/resume/delete}" method="post" class="inline-form">
+                <button type="submit" class="btn btn-danger btn-sm">Remove resume</button>
+            </form>
+        </div>
+    </main>
+</div>
+</body>
+</html>

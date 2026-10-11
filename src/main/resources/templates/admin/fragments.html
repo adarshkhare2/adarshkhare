@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:fragment="head(title)">
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title th:text="${title} + ' | Admin'">Admin</title>
+    <link rel="stylesheet" th:href="@{/css/admin.css(v=7)}"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <script defer src="/js/admin.js"></script>
+</head>
+<body>
+
+<aside th:fragment="sidebar(active)" class="sidebar">
+    <a href="/" class="sidebar-brand">Portfolio<span>.</span></a>
+    <nav class="sidebar-nav">
+        <a th:href="@{/admin}" th:classappend="${active == 'dashboard'} ? 'active'">Dashboard</a>
+        <a th:href="@{/admin/profile}" th:classappend="${active == 'profile'} ? 'active'">Profile</a>
+        <a th:href="@{/admin/skills}" th:classappend="${active == 'skills'} ? 'active'">Skills</a>
+        <a th:href="@{/admin/experiences}" th:classappend="${active == 'experiences'} ? 'active'">Experience</a>
+        <a th:href="@{/admin/educations}" th:classappend="${active == 'educations'} ? 'active'">Education</a>
+        <a th:href="@{/admin/projects}" th:classappend="${active == 'projects'} ? 'active'">Projects</a>
+        <a th:href="@{/admin/certifications}" th:classappend="${active == 'certifications'} ? 'active'">Certifications</a>
+        <a th:href="@{/admin/messages}" th:classappend="${active == 'messages'} ? 'active'">Messages</a>
+        <a th:href="@{/admin/appearance}" th:classappend="${active == 'appearance'} ? 'active'">Appearance</a>
+    </nav>
+    <div class="sidebar-foot">
+        <a href="/" target="_blank" class="sidebar-view">View site &rarr;</a>
+        <form th:action="@{/logout}" method="post">
+            <button type="submit" class="btn btn-outline btn-sm block">Logout</button>
+        </form>
+    </div>
+</aside>
+
+<div th:fragment="flash" class="flash-scope">
+    <div th:if="${message}" class="alert alert-ok" th:text="${message}">Saved.</div>
+    <div th:if="${error}" class="alert alert-err" th:text="${error}">Something went wrong.</div>
+</div>
+
+</body>
+</html>

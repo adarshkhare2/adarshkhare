@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{admin/fragments :: head('Certification')}"></head>
+<body class="admin">
+<div class="admin-layout">
+    <aside th:replace="~{admin/fragments :: sidebar('certifications')}"></aside>
+    <main class="admin-main">
+        <div class="admin-header">
+            <h1 th:text="${certification.id == null ? 'New certification' : 'Edit certification'}">Certification</h1>
+        </div>
+        <div class="panel">
+            <form th:action="@{/admin/certifications/save}" th:object="${certification}" method="post" enctype="multipart/form-data" class="form-grid">
+                <input type="hidden" th:field="*{id}"/>
+                <label>Title
+                    <input type="text" th:field="*{title}" required/>
+                </label>
+                <label>Issuer
+                    <input type="text" th:field="*{issuer}" placeholder="e.g. KloudGin, Inc."/>
+                </label>
+                <label>Year
+                    <input type="text" th:field="*{year}" placeholder="2026"/>
+                </label>
+                <label>Credential URL
+                    <input type="text" th:field="*{credentialUrl}"/>
+                </label>
+                <label>Certificate PDF
+                    <input type="file" name="certificateFile" accept="application/pdf"/>
+                </label>
+                <div class="full" th:if="${certification.credentialFile != null and !certification.credentialFile.isEmpty()}">
+                    <span class="field-hint">Current file: a PDF is attached to this certificate.</span>
+                </div>
+                <label class="full">Description
+                    <textarea th:field="*{description}" rows="4"></textarea>
+                </label>
+                <div class="full form-actions">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                    <a href="/admin/certifications" class="btn btn-outline">Cancel</a>
+                </div>
+            </form>
+            <form th:if="${certification.id != null and certification.credentialFile != null and !certification.credentialFile.isEmpty()}"
+                  th:action="@{'/admin/certifications/file/delete/' + ${certification.id}}" method="post" style="margin-top:12px">
+                <button type="submit" class="btn btn-danger">Remove PDF</button>
+            </form>
+        </div>
+    </main>
+</div>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{admin/fragments :: head('Experience')}"></head>
+<body class="admin">
+<div class="admin-layout">
+    <aside th:replace="~{admin/fragments :: sidebar('experiences')}"></aside>
+    <main class="admin-main">
+        <div class="admin-header row">
+            <div>
+                <h1>Experience</h1>
+                <p class="muted">Your work history.</p>
+            </div>
+            <a href="/admin/experiences/new" class="btn btn-primary btn-sm">+ New experience</a>
+        </div>
+
+        <div th:replace="~{admin/fragments :: flash}"></div>
+
+        <div class="panel no-pad">
+            <table class="table">
+                <thead>
+                <tr><th>Role</th><th>Company</th><th>Period</th><th class="right">Actions</th></tr>
+                </thead>
+                <tbody>
+                <tr th:each="exp : ${experiences}">
+                    <td th:text="${exp.role}">Role</td>
+                    <td th:text="${exp.company}">Company</td>
+                    <td>
+                        <span th:text="${exp.startDate != null ? #temporals.format(exp.startDate,'MMM yyyy') : ''}"></span> –
+                        <span th:if="${exp.current}">Present</span>
+                        <span th:unless="${exp.current}" th:text="${exp.endDate != null ? #temporals.format(exp.endDate,'MMM yyyy') : ''}"></span>
+                    </td>
+                    <td class="right actions">
+                        <a th:href="@{/admin/experiences/edit/{id}(id=${exp.id})}" class="btn btn-outline btn-xs">Edit</a>
+                        <form th:action="@{/admin/experiences/delete/{id}(id=${exp.id})}" method="post" class="inline-form">
+                            <button type="submit" class="btn btn-danger btn-xs" data-confirm="Delete this entry?">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                <tr th:if="${experiences.isEmpty()}"><td colspan="4" class="empty">No experience yet.</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+</div>
+</body>
+</html>

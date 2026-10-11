@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{admin/fragments :: head('Projects')}"></head>
+<body class="admin">
+<div class="admin-layout">
+    <aside th:replace="~{admin/fragments :: sidebar('projects')}"></aside>
+    <main class="admin-main">
+        <div class="admin-header row">
+            <div>
+                <h1>Projects</h1>
+                <p class="muted">Showcase the things you have built.</p>
+            </div>
+            <a href="/admin/projects/new" class="btn btn-primary btn-sm">+ New project</a>
+        </div>
+
+        <div th:replace="~{admin/fragments :: flash}"></div>
+
+        <div class="panel no-pad">
+            <table class="table">
+                <thead>
+                <tr><th>Title</th><th>Tech</th><th>Order</th><th class="right">Actions</th></tr>
+                </thead>
+                <tbody>
+                <tr th:each="project : ${projects}">
+                    <td th:text="${project.title}">Title</td>
+                    <td th:text="${project.techStack}">Tech</td>
+                    <td th:text="${project.displayOrder}">1</td>
+                    <td class="right actions">
+                        <a th:href="@{/admin/projects/edit/{id}(id=${project.id})}" class="btn btn-outline btn-xs">Edit</a>
+                        <form th:action="@{/admin/projects/delete/{id}(id=${project.id})}" method="post" class="inline-form">
+                            <button type="submit" class="btn btn-danger btn-xs" data-confirm="Delete this project?">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                <tr th:if="${projects.isEmpty()}"><td colspan="4" class="empty">No projects yet.</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+</div>
+</body>
+</html>

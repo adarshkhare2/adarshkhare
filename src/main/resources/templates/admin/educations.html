@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{admin/fragments :: head('Education')}"></head>
+<body class="admin">
+<div class="admin-layout">
+    <aside th:replace="~{admin/fragments :: sidebar('educations')}"></aside>
+    <main class="admin-main">
+        <div class="admin-header row">
+            <div>
+                <h1>Education</h1>
+                <p class="muted">Your degrees and certifications.</p>
+            </div>
+            <a href="/admin/educations/new" class="btn btn-primary btn-sm">+ New education</a>
+        </div>
+
+        <div th:replace="~{admin/fragments :: flash}"></div>
+
+        <div class="panel no-pad">
+            <table class="table">
+                <thead>
+                <tr><th>Degree</th><th>Institution</th><th>Years</th><th class="right">Actions</th></tr>
+                </thead>
+                <tbody>
+                <tr th:each="edu : ${educations}">
+                    <td th:text="${edu.degree}">Degree</td>
+                    <td th:text="${edu.institution}">Institution</td>
+                    <td th:text="${edu.startYear} + ' – ' + ${edu.endYear}">2019 – 2023</td>
+                    <td class="right actions">
+                        <a th:href="@{/admin/educations/edit/{id}(id=${edu.id})}" class="btn btn-outline btn-xs">Edit</a>
+                        <form th:action="@{/admin/educations/delete/{id}(id=${edu.id})}" method="post" class="inline-form">
+                            <button type="submit" class="btn btn-danger btn-xs" data-confirm="Delete this entry?">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                <tr th:if="${educations.isEmpty()}"><td colspan="4" class="empty">No education yet.</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+</div>
+</body>
+</html>

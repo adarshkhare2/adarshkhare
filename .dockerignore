@@ -1,0 +1,9 @@
+target
+site
+.git
+.github
+.idea
+.vscode
+*.iml
+*.log
+data/*.lock.db

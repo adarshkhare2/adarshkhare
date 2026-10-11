@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{admin/fragments :: head('Skill')}"></head>
+<body class="admin">
+<div class="admin-layout">
+    <aside th:replace="~{admin/fragments :: sidebar('skills')}"></aside>
+    <main class="admin-main">
+        <div class="admin-header">
+            <h1 th:text="${skill.id == null ? 'New skill' : 'Edit skill'}">Skill</h1>
+        </div>
+        <div class="panel">
+            <form th:action="@{/admin/skills/save}" th:object="${skill}" method="post" class="form-grid">
+                <input type="hidden" th:field="*{id}"/>
+                <label>Name
+                    <input type="text" th:field="*{name}" required/>
+                </label>
+                <label>Category
+                    <input type="text" th:field="*{category}" placeholder="e.g. Backend" list="cats"/>
+                    <datalist id="cats"><option>Backend</option><option>Frontend</option><option>Tools</option><option>Soft Skills</option></datalist>
+                </label>
+                <label>Level (0–100)
+                    <input type="number" min="0" max="100" th:field="*{level}" required/>
+                </label>
+                <label>Display order
+                    <input type="number" min="0" th:field="*{displayOrder}"/>
+                </label>
+                <div class="full form-actions">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                    <a href="/admin/skills" class="btn btn-outline">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </main>
+</div>
+</body>
+</html>

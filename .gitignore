@@ -1,0 +1,12 @@
+# build output
+target/
+
+# logs
+*.log
+data/*.lock.db
+
+# IDE / OS
+.idea/
+*.iml
+.vscode/
+Thumbs.db

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{admin/fragments :: head('Messages')}"></head>
+<body class="admin">
+<div class="admin-layout">
+    <aside th:replace="~{admin/fragments :: sidebar('messages')}"></aside>
+    <main class="admin-main">
+        <div class="admin-header row">
+            <div>
+                <h1>Messages</h1>
+                <p class="muted">Messages sent through the contact form.</p>
+            </div>
+        </div>
+
+        <div th:replace="~{admin/fragments :: flash}"></div>
+
+        <div class="panel no-pad">
+            <table class="table">
+                <thead>
+                <tr><th>From</th><th>Subject</th><th>Message</th><th>Received</th><th class="right">Actions</th></tr>
+                </thead>
+                <tbody>
+                <tr th:each="m : ${messages}" th:style="${m.read ? '' : 'font-weight:600'}">
+                    <td>
+                        <div th:text="${m.name}">Name</div>
+                        <a th:href="'mailto:' + ${m.email}" class="muted" th:text="${m.email}">email</a>
+                    </td>
+                    <td th:text="${m.subject != null and !m.subject.isEmpty() ? m.subject : '—'}">Subject</td>
+                    <td class="msg-cell" th:text="${m.message}">Message</td>
+                    <td class="muted" th:text="${#temporals.format(m.createdAt, 'd MMM yyyy, HH:mm')}">date</td>
+                    <td class="right actions">
+                        <a th:href="'mailto:' + ${m.email} + '?subject=' + (m.subject != null ? m.subject : '')" class="btn btn-outline btn-xs">Reply</a>
+                        <form th:if="${!m.read}" th:action="@{/admin/messages/read/{id}(id=${m.id})}" method="post" class="inline-form">
+                            <button type="submit" class="btn btn-outline btn-xs">Mark read</button>
+                        </form>
+                        <form th:action="@{/admin/messages/delete/{id}(id=${m.id})}" method="post" class="inline-form">
+                            <button type="submit" class="btn btn-danger btn-xs" data-confirm="Delete this message?">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                <tr th:if="${messages.isEmpty()}"><td colspan="5" class="empty">No messages yet.</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+</div>
+</body>
+</html>

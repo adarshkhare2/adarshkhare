@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{admin/fragments :: head('Skills')}"></head>
+<body class="admin">
+<div class="admin-layout">
+    <aside th:replace="~{admin/fragments :: sidebar('skills')}"></aside>
+    <main class="admin-main">
+        <div class="admin-header row">
+            <div>
+                <h1>Skills</h1>
+                <p class="muted">Add skills with a category and proficiency level.</p>
+            </div>
+            <a href="/admin/skills/new" class="btn btn-primary btn-sm">+ New skill</a>
+        </div>
+
+        <div th:replace="~{admin/fragments :: flash}"></div>
+
+        <div class="panel no-pad">
+            <table class="table">
+                <thead>
+                <tr><th>Name</th><th>Category</th><th>Level</th><th>Order</th><th class="right">Actions</th></tr>
+                </thead>
+                <tbody>
+                <tr th:each="skill : ${skills}">
+                    <td th:text="${skill.name}">Java</td>
+                    <td th:text="${skill.category}">Backend</td>
+                    <td>
+                        <div class="mini-bar"><div class="mini-fill" th:style="'width:' + ${skill.level} + '%'"></div></div>
+                        <span class="muted small" th:text="${skill.level} + '%'">80%</span>
+                    </td>
+                    <td th:text="${skill.displayOrder}">1</td>
+                    <td class="right actions">
+                        <a th:href="@{/admin/skills/edit/{id}(id=${skill.id})}" class="btn btn-outline btn-xs">Edit</a>
+                        <form th:action="@{/admin/skills/delete/{id}(id=${skill.id})}" method="post" class="inline-form">
+                            <button type="submit" class="btn btn-danger btn-xs" data-confirm="Delete this skill?">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                <tr th:if="${skills.isEmpty()}"><td colspan="5" class="empty">No skills yet.</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+</div>
+</body>
+</html>
