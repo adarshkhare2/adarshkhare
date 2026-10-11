@@ -1,0 +1,34 @@
+# Normalize text files to LF in the repository; check out with native endings.
+* text=auto
+
+# Windows scripts keep CRLF.
+*.cmd text eol=crlf
+*.bat text eol=crlf
+
+# Explicit text types.
+*.java       text
+*.xml        text
+*.properties text
+*.html       text
+*.css        text
+*.js         text
+*.json       text
+*.md         text
+*.yml        text
+
+# Binary files - never diff, never convert.
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.gif   binary
+*.webp  binary
+*.ico   binary
+*.pdf   binary
+*.jar   binary
+*.docx  binary
+*.mv.db binary
+
+# Generated / exported content (kept in the repo but not "source").
+site/**    linguist-generated=true
+data/**    linguist-generated=true
+uploads/** linguist-generated=true
